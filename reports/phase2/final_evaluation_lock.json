@@ -1,0 +1,20 @@
+{
+  "locked": true,
+  "evaluated_at_utc": "2026-10-27T21:32:18.901299+00:00",
+  "selected_model_id": "M1_logreg_C2.0_cwNone",
+  "model_joblib_sha256": "0589ce46b0ed26e5aa229b1a1d07c47d9c0f396af58b615e532777bdf12b3142",
+  "manifest_sha256": "b9a5bdcdfe6c7364ff22758a589b066e300da38bf0d4e6ab0660b80dadb84164",
+  "policy_sha256": "48ebd3d04cc62632bd04bc3b2f8aff09d684291f553bb9f3929c389420e1b68d",
+  "test_dataset_path": "data/processed/test.csv",
+  "test_dataset_rows": 2387,
+  "test_dataset_sha256": "d0f7265d67753a27a40a0fcc6caab8f88849b352427a71929ac692b37b06d75a",
+  "final_test_metrics_sha256": "c5b50e174d7a464fc3c174d5f15c5015c81780846410903d92c84fe5bf92bd81",
+  "summary": {
+    "macro_f1": 0.716627,
+    "micro_f1": 0.726061,
+    "request_f2": 0.778092,
+    "request_f1": 0.740385,
+    "mean_average_precision": 0.764252,
+    "review_flag_rate": 0.339338
+  }
+}

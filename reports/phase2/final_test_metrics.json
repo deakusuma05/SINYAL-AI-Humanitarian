@@ -1,0 +1,479 @@
+{
+  "evaluation_timestamp_utc": "2026-10-27T21:32:18.901299+00:00",
+  "dataset_description": "Cleaned held-out test set (`data/processed/test.csv`, 2,387 rows; 10 duplicate IDs removed from raw `disaster_response_test.csv` during Phase 1 deterministic preparation).",
+  "offline_benchmark_disclaimer": "Offline benchmark evaluation on historical disaster-response messages only; does not constitute field validation or real-world deployment evidence.",
+  "selected_model_id": "M1_logreg_C2.0_cwNone",
+  "base_model_id": "M1_logreg_C2.0_cwNone",
+  "calibration_status": "uncalibrated_raw_probabilities",
+  "test_dataset_sha256": "d0f7265d67753a27a40a0fcc6caab8f88849b352427a71929ac692b37b06d75a",
+  "test_dataset_rows": 2387,
+  "model_joblib_sha256": "0589ce46b0ed26e5aa229b1a1d07c47d9c0f396af58b615e532777bdf12b3142",
+  "frozen_thresholds": {
+    "request": 0.19,
+    "water": 0.22,
+    "food": 0.26,
+    "shelter": 0.32,
+    "medical_help": 0.2
+  },
+  "held_out_test_metrics_frozen_thresholds": {
+    "n_samples": 2387,
+    "thresholds": {
+      "request": 0.19,
+      "water": 0.22,
+      "food": 0.26,
+      "shelter": 0.32,
+      "medical_help": 0.2
+    },
+    "macro_f1": 0.716627,
+    "micro_f1": 0.726061,
+    "request_f2": 0.778092,
+    "request_f1": 0.740385,
+    "mean_average_precision": 0.764252,
+    "mean_brier_score": 0.049459,
+    "hamming_loss": 0.065438,
+    "exact_match_subset_accuracy_secondary": 0.726435,
+    "per_label": {
+      "request": {
+        "label": "request",
+        "threshold": 0.19,
+        "precision": 0.685053,
+        "recall": 0.805439,
+        "f1": 0.740385,
+        "f2": 0.778092,
+        "average_precision": 0.830479,
+        "brier_score": 0.073898,
+        "accuracy_secondary": 0.886887,
+        "balanced_accuracy": 0.85636,
+        "positive_support": 478,
+        "negative_support": 1909,
+        "predicted_positive_count": 562,
+        "predicted_positive_rate": 0.235442,
+        "confusion_matrix": {
+          "tn": 1732,
+          "fp": 177,
+          "fn": 93,
+          "tp": 385
+        }
+      },
+      "water": {
+        "label": "water",
+        "threshold": 0.22,
+        "precision": 0.804124,
+        "recall": 0.816754,
+        "f1": 0.81039,
+        "f2": 0.814196,
+        "average_precision": 0.863323,
+        "brier_score": 0.0285,
+        "accuracy_secondary": 0.969418,
+        "balanced_accuracy": 0.899725,
+        "positive_support": 191,
+        "negative_support": 2196,
+        "predicted_positive_count": 194,
+        "predicted_positive_rate": 0.081274,
+        "confusion_matrix": {
+          "tn": 2158,
+          "fp": 38,
+          "fn": 35,
+          "tp": 156
+        }
+      },
+      "food": {
+        "label": "food",
+        "threshold": 0.26,
+        "precision": 0.853571,
+        "recall": 0.775974,
+        "f1": 0.812925,
+        "f2": 0.790344,
+        "average_precision": 0.852563,
+        "brier_score": 0.044161,
+        "accuracy_secondary": 0.953917,
+        "balanced_accuracy": 0.878127,
+        "positive_support": 308,
+        "negative_support": 2079,
+        "predicted_positive_count": 280,
+        "predicted_positive_rate": 0.117302,
+        "confusion_matrix": {
+          "tn": 2038,
+          "fp": 41,
+          "fn": 69,
+          "tp": 239
+        }
+      },
+      "shelter": {
+        "label": "shelter",
+        "threshold": 0.32,
+        "precision": 0.790576,
+        "recall": 0.674107,
+        "f1": 0.727711,
+        "f2": 0.694572,
+        "average_precision": 0.829575,
+        "brier_score": 0.038127,
+        "accuracy_secondary": 0.95266,
+        "balanced_accuracy": 0.827807,
+        "positive_support": 224,
+        "negative_support": 2163,
+        "predicted_positive_count": 191,
+        "predicted_positive_rate": 0.080017,
+        "confusion_matrix": {
+          "tn": 2123,
+          "fp": 40,
+          "fn": 73,
+          "tp": 151
+        }
+      },
+      "medical_help": {
+        "label": "medical_help",
+        "threshold": 0.2,
+        "precision": 0.490566,
+        "recall": 0.492891,
+        "f1": 0.491726,
+        "f2": 0.492424,
+        "average_precision": 0.445321,
+        "brier_score": 0.062609,
+        "accuracy_secondary": 0.909929,
+        "balanced_accuracy": 0.721629,
+        "positive_support": 211,
+        "negative_support": 2176,
+        "predicted_positive_count": 212,
+        "predicted_positive_rate": 0.088814,
+        "confusion_matrix": {
+          "tn": 2068,
+          "fp": 108,
+          "fn": 107,
+          "tp": 104
+        }
+      }
+    }
+  },
+  "held_out_test_metrics_default_0.50_reference": {
+    "n_samples": 2387,
+    "thresholds": {
+      "request": 0.5,
+      "water": 0.5,
+      "food": 0.5,
+      "shelter": 0.5,
+      "medical_help": 0.5
+    },
+    "macro_f1": 0.611347,
+    "micro_f1": 0.648869,
+    "request_f2": 0.628378,
+    "request_f1": 0.709924,
+    "mean_average_precision": 0.764252,
+    "mean_brier_score": 0.049459,
+    "hamming_loss": 0.065019,
+    "exact_match_subset_accuracy_secondary": 0.74403,
+    "per_label": {
+      "request": {
+        "label": "request",
+        "threshold": 0.5,
+        "precision": 0.905844,
+        "recall": 0.583682,
+        "f1": 0.709924,
+        "f2": 0.628378,
+        "average_precision": 0.830479,
+        "brier_score": 0.073898,
+        "accuracy_secondary": 0.904483,
+        "balanced_accuracy": 0.784245,
+        "positive_support": 478,
+        "negative_support": 1909,
+        "predicted_positive_count": 308,
+        "predicted_positive_rate": 0.129032,
+        "confusion_matrix": {
+          "tn": 1880,
+          "fp": 29,
+          "fn": 199,
+          "tp": 279
+        }
+      },
+      "water": {
+        "label": "water",
+        "threshold": 0.5,
+        "precision": 0.921053,
+        "recall": 0.549738,
+        "f1": 0.688525,
+        "f2": 0.59795,
+        "average_precision": 0.863323,
+        "brier_score": 0.0285,
+        "accuracy_secondary": 0.960201,
+        "balanced_accuracy": 0.77282,
+        "positive_support": 191,
+        "negative_support": 2196,
+        "predicted_positive_count": 114,
+        "predicted_positive_rate": 0.047759,
+        "confusion_matrix": {
+          "tn": 2187,
+          "fp": 9,
+          "fn": 86,
+          "tp": 105
+        }
+      },
+      "food": {
+        "label": "food",
+        "threshold": 0.5,
+        "precision": 0.919598,
+        "recall": 0.594156,
+        "f1": 0.721893,
+        "f2": 0.639413,
+        "average_precision": 0.852563,
+        "brier_score": 0.044161,
+        "accuracy_secondary": 0.94093,
+        "balanced_accuracy": 0.79323,
+        "positive_support": 308,
+        "negative_support": 2079,
+        "predicted_positive_count": 199,
+        "predicted_positive_rate": 0.083368,
+        "confusion_matrix": {
+          "tn": 2063,
+          "fp": 16,
+          "fn": 125,
+          "tp": 183
+        }
+      },
+      "shelter": {
+        "label": "shelter",
+        "threshold": 0.5,
+        "precision": 0.925,
+        "recall": 0.495536,
+        "f1": 0.645349,
+        "f2": 0.54626,
+        "average_precision": 0.829575,
+        "brier_score": 0.038127,
+        "accuracy_secondary": 0.94889,
+        "balanced_accuracy": 0.745687,
+        "positive_support": 224,
+        "negative_support": 2163,
+        "predicted_positive_count": 120,
+        "predicted_positive_rate": 0.050272,
+        "confusion_matrix": {
+          "tn": 2154,
+          "fp": 9,
+          "fn": 113,
+          "tp": 111
+        }
+      },
+      "medical_help": {
+        "label": "medical_help",
+        "threshold": 0.5,
+        "precision": 0.684211,
+        "recall": 0.184834,
+        "f1": 0.291045,
+        "f2": 0.216426,
+        "average_precision": 0.445321,
+        "brier_score": 0.062609,
+        "accuracy_secondary": 0.920402,
+        "balanced_accuracy": 0.588281,
+        "positive_support": 211,
+        "negative_support": 2176,
+        "predicted_positive_count": 57,
+        "predicted_positive_rate": 0.023879,
+        "confusion_matrix": {
+          "tn": 2158,
+          "fp": 18,
+          "fn": 172,
+          "tp": 39
+        }
+      }
+    }
+  },
+  "human_review_policy_test": {
+    "total_messages": 2387,
+    "flagged_for_review_count": 810,
+    "flagged_for_review_rate": 0.339338,
+    "uncertainty_indicated_count": 462,
+    "uncertainty_indicated_rate": 0.193548,
+    "remaining_unflagged_count": 1577,
+    "remaining_unflagged_coverage": 0.660662,
+    "total_true_requests": 478,
+    "true_requests_captured_in_review_queue": 422,
+    "request_recall_among_flagged_queue": 0.882845,
+    "direct_binary_request_recall_without_uncertainty_rules": 0.805439,
+    "additional_true_requests_rescued_by_uncertainty_policy": 37,
+    "unflagged_subset_missed_requests_count": 56,
+    "unflagged_subset_request_negative_predictive_accuracy": 0.96449,
+    "unflagged_subset_macro_f1": 0.451377,
+    "unflagged_subset_micro_f1": 0.498452,
+    "reason_trigger_counts": {
+      "borderline_request_score_below_threshold": 217,
+      "borderline_need_topic_score": 199,
+      "predicted_aid_request_verification": 562,
+      "borderline_positive_request_score": 98,
+      "topic_detected_with_moderate_request_score": 107
+    },
+    "coverage_vs_review_sensitivity": [
+      {
+        "uncertainty_half_width": 0.0,
+        "review_flag_rate": 0.280268,
+        "remaining_subset_coverage": 0.719732,
+        "request_queue_capture_recall": 0.83682,
+        "remaining_subset_request_accuracy": 0.954598
+      },
+      {
+        "uncertainty_half_width": 0.04,
+        "review_flag_rate": 0.302891,
+        "remaining_subset_coverage": 0.697109,
+        "request_queue_capture_recall": 0.853556,
+        "remaining_subset_request_accuracy": 0.957933
+      },
+      {
+        "uncertainty_half_width": 0.08,
+        "review_flag_rate": 0.339338,
+        "remaining_subset_coverage": 0.660662,
+        "request_queue_capture_recall": 0.882845,
+        "remaining_subset_request_accuracy": 0.96449
+      },
+      {
+        "uncertainty_half_width": 0.12,
+        "review_flag_rate": 0.440721,
+        "remaining_subset_coverage": 0.559279,
+        "request_queue_capture_recall": 0.924686,
+        "remaining_subset_request_accuracy": 0.973034
+      },
+      {
+        "uncertainty_half_width": 0.16,
+        "review_flag_rate": 0.771261,
+        "remaining_subset_coverage": 0.228739,
+        "request_queue_capture_recall": 0.976987,
+        "remaining_subset_request_accuracy": 0.979853
+      }
+    ]
+  },
+  "exploratory_genre_subgroups_test": {
+    "direct": {
+      "genre": "direct",
+      "record_count": 1067,
+      "request_positive_count": 421,
+      "request_positive_rate": 0.394564,
+      "request_precision": 0.715649,
+      "request_recall": 0.890736,
+      "request_f1": 0.793651,
+      "request_f2": 0.849185,
+      "macro_f1": 0.748441,
+      "micro_f1": 0.797262,
+      "per_label": {
+        "request": {
+          "positive_support": 421,
+          "precision": 0.715649,
+          "recall": 0.890736,
+          "f1": 0.793651,
+          "average_precision": 0.891584
+        },
+        "water": {
+          "positive_support": 97,
+          "precision": 0.86,
+          "recall": 0.886598,
+          "f1": 0.873096,
+          "average_precision": 0.94109
+        },
+        "food": {
+          "positive_support": 201,
+          "precision": 0.900498,
+          "recall": 0.900498,
+          "f1": 0.900498,
+          "average_precision": 0.930972
+        },
+        "shelter": {
+          "positive_support": 123,
+          "precision": 0.791304,
+          "recall": 0.739837,
+          "f1": 0.764706,
+          "average_precision": 0.854347
+        },
+        "medical_help": {
+          "positive_support": 69,
+          "precision": 0.5,
+          "recall": 0.347826,
+          "f1": 0.410256,
+          "average_precision": 0.373148
+        }
+      }
+    },
+    "news": {
+      "genre": "news",
+      "record_count": 1320,
+      "request_positive_count": 57,
+      "request_positive_rate": 0.043182,
+      "request_precision": 0.263158,
+      "request_recall": 0.175439,
+      "request_f1": 0.210526,
+      "request_f2": 0.18797,
+      "macro_f1": 0.555941,
+      "micro_f1": 0.584034,
+      "per_label": {
+        "request": {
+          "positive_support": 57,
+          "precision": 0.263158,
+          "recall": 0.175439,
+          "f1": 0.210526,
+          "average_precision": 0.165212
+        },
+        "water": {
+          "positive_support": 94,
+          "precision": 0.744681,
+          "recall": 0.744681,
+          "f1": 0.744681,
+          "average_precision": 0.753386
+        },
+        "food": {
+          "positive_support": 107,
+          "precision": 0.734177,
+          "recall": 0.542056,
+          "f1": 0.623656,
+          "average_precision": 0.617168
+        },
+        "shelter": {
+          "positive_support": 101,
+          "precision": 0.789474,
+          "recall": 0.594059,
+          "f1": 0.677966,
+          "average_precision": 0.801444
+        },
+        "medical_help": {
+          "positive_support": 142,
+          "precision": 0.487805,
+          "recall": 0.56338,
+          "f1": 0.522876,
+          "average_precision": 0.486188
+        }
+      }
+    }
+  },
+  "exploratory_ranking_utility_test": {
+    "note": "Exploratory queue-ordering utility metric on historical messages; does not measure clinical urgency or field response time.",
+    "metrics": {
+      "top_10pct": {
+        "fraction_reviewed": 0.1,
+        "messages_reviewed": 239,
+        "total_messages": 2387,
+        "total_true_requests": 478,
+        "requests_captured_by_model_ranking": 223,
+        "model_recall_at_k": 0.466527,
+        "model_precision_at_k": 0.933054,
+        "random_baseline_recall_at_k": 0.107741,
+        "lift_over_random": 4.3301
+      },
+      "top_20pct": {
+        "fraction_reviewed": 0.2,
+        "messages_reviewed": 477,
+        "total_messages": 2387,
+        "total_true_requests": 478,
+        "requests_captured_by_model_ranking": 359,
+        "model_recall_at_k": 0.751046,
+        "model_precision_at_k": 0.752621,
+        "random_baseline_recall_at_k": 0.199791,
+        "lift_over_random": 3.7592
+      },
+      "top_30pct": {
+        "fraction_reviewed": 0.3,
+        "messages_reviewed": 716,
+        "total_messages": 2387,
+        "total_true_requests": 478,
+        "requests_captured_by_model_ranking": 406,
+        "model_recall_at_k": 0.849372,
+        "model_precision_at_k": 0.567039,
+        "random_baseline_recall_at_k": 0.295816,
+        "lift_over_random": 2.8713
+      }
+    }
+  },
+  "confusion_matrix_figure": "reports/phase2/figures/fig9_test_confusion_matrices.png"
+}

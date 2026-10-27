@@ -1,0 +1,110 @@
+{
+  "model_version": "2.0.0",
+  "frozen_at_utc": "2026-10-27T21:31:43.771215+00:00",
+  "status": "FROZEN_BEFORE_HELD_OUT_TEST",
+  "selected_model_id": "M1_logreg_C2.0_cwNone",
+  "base_model_id": "M1_logreg_C2.0_cwNone",
+  "model_family": "M1",
+  "description": "TF-IDF + LogisticRegression (C=2.0, class_weight=None)",
+  "calibration_status": "uncalibrated_raw_probabilities",
+  "random_seed": 42,
+  "target_labels": [
+    "request",
+    "water",
+    "food",
+    "shelter",
+    "medical_help"
+  ],
+  "tfidf_parameters": {
+    "lowercase": true,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "min_df": 2,
+    "max_df": 0.98,
+    "max_features": 30000,
+    "sublinear_tf": true
+  },
+  "classifier_hyperparameters": {
+    "tfidf": {
+      "lowercase": true,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "min_df": 2,
+      "max_df": 0.98,
+      "max_features": 30000,
+      "sublinear_tf": true
+    },
+    "C": 2.0,
+    "class_weight": null,
+    "solver": "lbfgs",
+    "max_iter": 1000,
+    "random_state": 42
+  },
+  "decision_thresholds": {
+    "request": 0.19,
+    "water": 0.22,
+    "food": 0.26,
+    "shelter": 0.32,
+    "medical_help": 0.2
+  },
+  "default_thresholds": {
+    "request": 0.5,
+    "water": 0.5,
+    "food": 0.5,
+    "shelter": 0.5,
+    "medical_help": 0.5
+  },
+  "uncertainty_half_width": 0.08,
+  "dataset_checksums": {
+    "train": {
+      "path": "data/processed/train.csv",
+      "rows": 19032,
+      "sha256": "13d0c0336f5ed8bc89c19ee3529075e5638f7aaf1976f1aaeefd0a3a75ecb02b",
+      "verified_match": true
+    },
+    "validation": {
+      "path": "data/processed/validation.csv",
+      "rows": 2329,
+      "sha256": "e09d9842d17414e08946739d93853db1687a873a08a25210ea65bb5aec7b722e",
+      "verified_match": true
+    },
+    "test": {
+      "path": "data/processed/test.csv",
+      "rows": 2387,
+      "sha256": "d0f7265d67753a27a40a0fcc6caab8f88849b352427a71929ac692b37b06d75a",
+      "verified_match": true
+    }
+  },
+  "artifacts": {
+    "model_joblib_path": "models/sinyal_model.joblib",
+    "model_joblib_sha256": "0589ce46b0ed26e5aa229b1a1d07c47d9c0f396af58b615e532777bdf12b3142",
+    "decision_policy_path": "models/decision_policy.json",
+    "decision_policy_sha256": "48ebd3d04cc62632bd04bc3b2f8aff09d684291f553bb9f3929c389420e1b68d"
+  },
+  "validation_summary_at_freeze": {
+    "default_macro_f1": 0.577027,
+    "default_micro_f1": 0.618691,
+    "default_request_f2": 0.672269,
+    "tuned_macro_f1": 0.678346,
+    "tuned_micro_f1": 0.683544,
+    "tuned_request_f2": 0.764761,
+    "mean_average_precision": 0.689489,
+    "mean_brier_score": 0.049786,
+    "review_flag_rate": 0.347789
+  },
+  "environment": {
+    "python_version": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "dependencies": {
+      "pandas": "2.3.3",
+      "numpy": "2.5.4",
+      "scikit_learn": "1.9.1",
+      "joblib": "1.6.0",
+      "matplotlib": "3.11.2"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+split,label,positive_count,negative_count,positive_rate,total_rows
+train,request,3428,15688,0.179326,19116
+train,water,1281,17835,0.067012,19116
+train,food,2242,16874,0.117284,19116
+train,shelter,1839,17277,0.096202,19116
+train,medical_help,1593,17523,0.083333,19116
+validation,request,398,1939,0.170304,2337
+validation,water,155,2182,0.066324,2337
+validation,food,267,2070,0.114249,2337
+validation,shelter,205,2132,0.087719,2337
+validation,medical_help,204,2133,0.087291,2337
+test,request,480,1917,0.20025,2397
+test,water,192,2205,0.0801,2397
+test,food,311,2086,0.129746,2397
+test,shelter,226,2171,0.094285,2397
+test,medical_help,213,2184,0.088861,2397

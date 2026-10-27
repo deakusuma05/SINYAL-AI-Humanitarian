@@ -1,0 +1,17 @@
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+data/raw/
+data/processed/
+.git/
+.gitignore
+.vscode/
+.DS_Store
+Thumbs.db
+

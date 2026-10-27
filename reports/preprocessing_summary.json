@@ -1,0 +1,280 @@
+{
+  "pipeline_version": "1.0.0",
+  "generated_at_utc": "2026-10-27T22:03:48.595475+00:00",
+  "target_labels": [
+    "request",
+    "water",
+    "food",
+    "shelter",
+    "medical_help"
+  ],
+  "output_columns": [
+    "id",
+    "split",
+    "message",
+    "normalized_message",
+    "original",
+    "genre",
+    "event",
+    "request",
+    "water",
+    "food",
+    "shelter",
+    "medical_help"
+  ],
+  "normalization_rules": [
+    "Unicode NFKC normalization",
+    "Lowercasing",
+    "Contiguous whitespace collapsed to single space and stripped",
+    "Original message text preserved unmodified in `message` column"
+  ],
+  "filtering_policy": [
+    "Rule 1: Remove records with null or whitespace-only `message`.",
+    "Rule 1b (Privacy Protection): Exclude `direct` genre records containing unredacted personal contact patterns (e.g., personal email/phone) and record only a redacted audit note (`id` + reason) without copying message content.",
+    "Rule 2: In `train` and `validation`, remove all instances of normalized messages that have conflicting 5-target label vectors within the same split.",
+    "Rule 3: Within each split, deduplicate remaining exact duplicate `id`s and exact duplicate `normalized_message`s deterministically (`keep='first'`).",
+    "Rule 4: Enforce zero cross-split leakage while preserving `test` as the held-out reference: remove from `validation` and `train` any `id` or `normalized_message` present in `test`, and remove from `train` any `id` or `normalized_message` present in `validation`."
+  ],
+  "totals": {
+    "initial_total_rows": 23850,
+    "final_total_rows": 23748,
+    "total_removed_rows": 102
+  },
+  "splits": {
+    "train": {
+      "split": "train",
+      "initial_rows": 19116,
+      "dropped_null_or_whitespace_message": 1,
+      "dropped_potential_pii_rows": 0,
+      "dropped_potential_pii_record_ids_redacted_note": [],
+      "within_split_conflicting_text_groups_detected": 11,
+      "dropped_within_split_conflicting_rows": 22,
+      "dropped_within_split_duplicate_id": 40,
+      "dropped_within_split_duplicate_norm_message": 12,
+      "rows_after_within_split_cleaning": 19041,
+      "dropped_cross_split_leakage_with_test": 5,
+      "dropped_cross_split_leakage_with_validation": 4,
+      "final_rows": 19032,
+      "total_removed_rows": 84
+    },
+    "validation": {
+      "split": "validation",
+      "initial_rows": 2337,
+      "dropped_null_or_whitespace_message": 1,
+      "dropped_potential_pii_rows": 1,
+      "dropped_potential_pii_record_ids_redacted_note": [
+        "id=4788 (excluded: unredacted personal contact pattern in direct message; content redacted)"
+      ],
+      "within_split_conflicting_text_groups_detected": 0,
+      "dropped_within_split_conflicting_rows": 0,
+      "dropped_within_split_duplicate_id": 4,
+      "dropped_within_split_duplicate_norm_message": 1,
+      "rows_after_within_split_cleaning": 2330,
+      "dropped_cross_split_leakage_with_test": 1,
+      "dropped_cross_split_leakage_with_validation": 0,
+      "final_rows": 2329,
+      "total_removed_rows": 8
+    },
+    "test": {
+      "split": "test",
+      "initial_rows": 2397,
+      "dropped_null_or_whitespace_message": 0,
+      "dropped_potential_pii_rows": 0,
+      "dropped_potential_pii_record_ids_redacted_note": [],
+      "within_split_conflicting_text_groups_detected": 0,
+      "dropped_within_split_conflicting_rows": 0,
+      "dropped_within_split_duplicate_id": 10,
+      "dropped_within_split_duplicate_norm_message": 0,
+      "rows_after_within_split_cleaning": 2387,
+      "test_conflicting_duplicate_rows_resolved_by_keep_first": 0,
+      "dropped_cross_split_leakage_with_test": 0,
+      "dropped_cross_split_leakage_with_validation": 0,
+      "final_rows": 2387,
+      "total_removed_rows": 10
+    }
+  },
+  "output_files": {
+    "train": {
+      "path": "data/processed/train.csv",
+      "rows": 19032,
+      "columns": [
+        "id",
+        "split",
+        "message",
+        "normalized_message",
+        "original",
+        "genre",
+        "event",
+        "request",
+        "water",
+        "food",
+        "shelter",
+        "medical_help"
+      ],
+      "size_bytes": 7014769,
+      "sha256": "13d0c0336f5ed8bc89c19ee3529075e5638f7aaf1976f1aaeefd0a3a75ecb02b"
+    },
+    "validation": {
+      "path": "data/processed/validation.csv",
+      "rows": 2329,
+      "columns": [
+        "id",
+        "split",
+        "message",
+        "normalized_message",
+        "original",
+        "genre",
+        "event",
+        "request",
+        "water",
+        "food",
+        "shelter",
+        "medical_help"
+      ],
+      "size_bytes": 921997,
+      "sha256": "e09d9842d17414e08946739d93853db1687a873a08a25210ea65bb5aec7b722e"
+    },
+    "test": {
+      "path": "data/processed/test.csv",
+      "rows": 2387,
+      "columns": [
+        "id",
+        "split",
+        "message",
+        "normalized_message",
+        "original",
+        "genre",
+        "event",
+        "request",
+        "water",
+        "food",
+        "shelter",
+        "medical_help"
+      ],
+      "size_bytes": 876734,
+      "sha256": "d0f7265d67753a27a40a0fcc6caab8f88849b352427a71929ac692b37b06d75a"
+    }
+  },
+  "processed_label_distribution": [
+    {
+      "split": "train",
+      "label": "request",
+      "positive_count": 3407,
+      "negative_count": 15625,
+      "positive_rate": 0.179014,
+      "total_rows": 19032
+    },
+    {
+      "split": "train",
+      "label": "water",
+      "positive_count": 1275,
+      "negative_count": 17757,
+      "positive_rate": 0.066992,
+      "total_rows": 19032
+    },
+    {
+      "split": "train",
+      "label": "food",
+      "positive_count": 2232,
+      "negative_count": 16800,
+      "positive_rate": 0.117276,
+      "total_rows": 19032
+    },
+    {
+      "split": "train",
+      "label": "shelter",
+      "positive_count": 1829,
+      "negative_count": 17203,
+      "positive_rate": 0.096101,
+      "total_rows": 19032
+    },
+    {
+      "split": "train",
+      "label": "medical_help",
+      "positive_count": 1586,
+      "negative_count": 17446,
+      "positive_rate": 0.083333,
+      "total_rows": 19032
+    },
+    {
+      "split": "validation",
+      "label": "request",
+      "positive_count": 397,
+      "negative_count": 1932,
+      "positive_rate": 0.170459,
+      "total_rows": 2329
+    },
+    {
+      "split": "validation",
+      "label": "water",
+      "positive_count": 155,
+      "negative_count": 2174,
+      "positive_rate": 0.066552,
+      "total_rows": 2329
+    },
+    {
+      "split": "validation",
+      "label": "food",
+      "positive_count": 266,
+      "negative_count": 2063,
+      "positive_rate": 0.114212,
+      "total_rows": 2329
+    },
+    {
+      "split": "validation",
+      "label": "shelter",
+      "positive_count": 204,
+      "negative_count": 2125,
+      "positive_rate": 0.087591,
+      "total_rows": 2329
+    },
+    {
+      "split": "validation",
+      "label": "medical_help",
+      "positive_count": 203,
+      "negative_count": 2126,
+      "positive_rate": 0.087162,
+      "total_rows": 2329
+    },
+    {
+      "split": "test",
+      "label": "request",
+      "positive_count": 478,
+      "negative_count": 1909,
+      "positive_rate": 0.200251,
+      "total_rows": 2387
+    },
+    {
+      "split": "test",
+      "label": "water",
+      "positive_count": 191,
+      "negative_count": 2196,
+      "positive_rate": 0.080017,
+      "total_rows": 2387
+    },
+    {
+      "split": "test",
+      "label": "food",
+      "positive_count": 308,
+      "negative_count": 2079,
+      "positive_rate": 0.129032,
+      "total_rows": 2387
+    },
+    {
+      "split": "test",
+      "label": "shelter",
+      "positive_count": 224,
+      "negative_count": 2163,
+      "positive_rate": 0.093842,
+      "total_rows": 2387
+    },
+    {
+      "split": "test",
+      "label": "medical_help",
+      "positive_count": 211,
+      "negative_count": 2176,
+      "positive_rate": 0.088395,
+      "total_rows": 2387
+    }
+  ]
+}

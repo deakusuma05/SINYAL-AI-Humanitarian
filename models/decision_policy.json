@@ -1,0 +1,63 @@
+{
+  "policy_version": "1.0.0",
+  "target_labels": [
+    "request",
+    "water",
+    "food",
+    "shelter",
+    "medical_help"
+  ],
+  "topic_labels": [
+    "water",
+    "food",
+    "shelter",
+    "medical_help"
+  ],
+  "thresholds": {
+    "request": 0.19,
+    "water": 0.22,
+    "food": 0.26,
+    "shelter": 0.32,
+    "medical_help": 0.2
+  },
+  "uncertainty_half_width": 0.08,
+  "implicit_request_ratio": 0.5,
+  "uncertainty_bands": {
+    "request": {
+      "threshold": 0.19,
+      "uncertainty_half_width": 0.08,
+      "lower_bound": 0.11,
+      "upper_bound": 0.27
+    },
+    "water": {
+      "threshold": 0.22,
+      "uncertainty_half_width": 0.08,
+      "lower_bound": 0.14,
+      "upper_bound": 0.3
+    },
+    "food": {
+      "threshold": 0.26,
+      "uncertainty_half_width": 0.08,
+      "lower_bound": 0.18,
+      "upper_bound": 0.34
+    },
+    "shelter": {
+      "threshold": 0.32,
+      "uncertainty_half_width": 0.08,
+      "lower_bound": 0.24,
+      "upper_bound": 0.4
+    },
+    "medical_help": {
+      "threshold": 0.2,
+      "uncertainty_half_width": 0.08,
+      "lower_bound": 0.12,
+      "upper_bound": 0.28
+    }
+  },
+  "safety_principles": [
+    "Decision-support prototype only: never automatically rejects or deletes messages.",
+    "All predicted aid requests are routed to human verification.",
+    "Borderline request scores and topic-positive messages with near-threshold request scores are flagged for human review.",
+    "Scores are model-estimated probabilities/scores, not clinical urgency or verified authenticity."
+  ]
+}

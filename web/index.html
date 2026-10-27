@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SINYAL — AI-Powered Humanitarian Request Triage | IRDSC 2026</title>
+  <meta name="description" content="SINYAL: Supervised multi-label NLP decision-support prototype for humanitarian disaster message triage and uncertainty-aware human review routing. IRDSC 2026 Category D2 — Team Bismillah Bisa." />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <!-- Chart.js UMD for interactive evaluation visualizations (graceful fallback included in charts.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="/js/api.js" defer></script>
+  <script src="/js/charts.js" defer></script>
+  <script src="/js/app.js" defer></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Top Command Header -->
+  <header class="top-header" role="banner">
+    <div class="header-inner">
+      <div class="brand-block">
+        <div class="brand-logo" aria-hidden="true">
+          <span class="logo-pulse"></span>
+          <span class="logo-text">S</span>
+        </div>
+        <div class="brand-titles">
+          <div class="brand-name-row">
+            <h1 class="brand-name">SINYAL</h1>
+            <span class="competition-pill">IRDSC 2026 &bull; Category D2 &bull; Team: Bismillah Bisa</span>
+          </div>
+          <p class="brand-tagline">From Crisis Messages to Humanitarian Action &mdash; Supervised NLP Triage &amp; Uncertainty-Aware Human Review</p>
+        </div>
+      </div>
+
+      <div class="header-status-group">
+        <div class="safety-badge" role="status" aria-label="Research demonstration disclaimer">
+          <span class="safety-dot" aria-hidden="true"></span>
+          <span>Research Demonstration &mdash; Not for Emergency Dispatch</span>
+        </div>
+        <div id="system-health-pill" class="health-pill health-checking" role="status" aria-live="polite">
+          <span class="health-indicator" id="health-indicator-dot"></span>
+          <span id="health-status-text">Checking Model &amp; API...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="main-nav" aria-label="Primary dashboard navigation">
+      <div class="nav-inner">
+        <ul class="nav-list">
+          <li><a href="#section-overview" class="nav-link active" data-section="section-overview">1. Overview</a></li>
+          <li><a href="#section-analyzer" class="nav-link" data-section="section-analyzer">2. Analyze &amp; Multi-Label Results</a></li>
+          <li><a href="#section-queue" class="nav-link" data-section="section-queue">3. Review Queue <span id="queue-count-badge" class="nav-badge">0</span></a></li>
+          <li><a href="#section-evaluation" class="nav-link" data-section="section-evaluation">4. Evaluation &amp; Benchmarks</a></li>
+          <li><a href="#section-limitations" class="nav-link" data-section="section-limitations">5. Limitations &amp; Ethics</a></li>
+        </ul>
+        <div class="nav-meta" id="header-model-summary">
+          Model: <code>M1_logreg_C2.0_cwNone</code> &bull; Language: English / Translated English
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Global Error / Alert Banner -->
+  <div id="global-alert-banner" class="global-alert hidden" role="alert" aria-live="assertive">
+    <div class="alert-content">
+      <strong id="global-alert-title">System Notice:</strong>
+      <span id="global-alert-message"></span>
+    </div>
+    <button type="button" id="global-alert-close" class="btn-alert-close" aria-label="Dismiss alert">&times;</button>
+  </div>
+
+  <main id="main-content" class="dashboard-container">
+
+    <!-- MODULE 1: OVERVIEW -->
+    <section id="section-overview" class="dashboard-section" aria-labelledby="heading-overview">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Module 1 &bull; System Architecture &amp; Operational Scope</span>
+          <h2 id="heading-overview" class="section-title">Humanitarian Decision-Support Triage Overview</h2>
+        </div>
+        <div class="scope-tag">Language Scope: English / Translated-English Messages Only</div>
+      </div>
+
+      <div class="overview-grid">
+        <div class="card overview-mission-card">
+          <h3 class="card-title">Purpose &amp; Human-in-the-Loop Workflow</h3>
+          <p class="card-body-text">
+            During high-volume disasters, humanitarian volunteers must screen thousands of incoming messages containing aid requests, general situational updates, weather reports, and offers of assistance. <strong>SINYAL</strong> is a lightweight, reproducible supervised NLP screening tool designed to organize incoming English (or English-translated) messages for human reviewers.
+          </p>
+          <div class="workflow-pipeline" aria-label="SINYAL Triage Workflow">
+            <div class="workflow-step">
+              <span class="step-num">01</span>
+              <strong>Incoming Message</strong>
+              <span>Raw English / translated disaster text</span>
+            </div>
+            <div class="workflow-arrow" aria-hidden="true">&rarr;</div>
+            <div class="workflow-step">
+              <span class="step-num">02</span>
+              <strong>Request Intent</strong>
+              <span><code>request</code> threshold &tau; = 0.19 (F<sub>2</sub>-tuned)</span>
+            </div>
+            <div class="workflow-arrow" aria-hidden="true">&rarr;</div>
+            <div class="workflow-step">
+              <span class="step-num">03</span>
+              <strong>Need-Topic Screening</strong>
+              <span><code>water</code>, <code>food</code>, <code>shelter</code>, <code>medical_help</code></span>
+            </div>
+            <div class="workflow-arrow" aria-hidden="true">&rarr;</div>
+            <div class="workflow-step">
+              <span class="step-num">04</span>
+              <strong>Uncertainty Policy</strong>
+              <span>&plusmn;0.08 band &amp; implicit request check</span>
+            </div>
+            <div class="workflow-arrow" aria-hidden="true">&rarr;</div>
+            <div class="workflow-step step-highlight">
+              <span class="step-num">05</span>
+              <strong>Human Review Queue</strong>
+              <span>Verified by volunteers; zero auto-deletion</span>
+            </div>
+          </div>
+          <div class="non-claims-box">
+            <strong>Strict Operational Boundaries (What SINYAL Does Not Do):</strong>
+            <ul>
+              <li>Does <strong>not</strong> autonomously dispatch emergency personnel or allocate physical supplies.</li>
+              <li>Does <strong>not</strong> diagnose medical conditions, determine clinical urgency, or verify request authenticity.</li>
+              <li>Does <strong>not</strong> discard or delete unflagged messages; all low-score messages remain in routine monitoring.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card overview-specs-card">
+          <h3 class="card-title">Verified Model &amp; Benchmark Specification</h3>
+          <dl class="spec-list" id="overview-metadata-list">
+            <div class="spec-row">
+              <dt>Selected Model ID</dt>
+              <dd><code id="meta-model-id">M1_logreg_C2.0_cwNone</code></dd>
+            </div>
+            <div class="spec-row">
+              <dt>Architecture</dt>
+              <dd id="meta-model-arch">TF-IDF (1&ndash;2 n-grams, 30k vocab, sublinear TF) + MultiOutput Logistic Regression (C=2.0)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>Probability Status</dt>
+              <dd><span class="badge badge-neutral" id="meta-calibration">uncalibrated_raw_probabilities</span></dd>
+            </div>
+            <div class="spec-row">
+              <dt>Score Terminology</dt>
+              <dd><strong id="meta-score-label">Model-estimated score</strong> (never clinical urgency)</dd>
+            </div>
+            <div class="spec-row">
+              <dt>Frozen Thresholds (&tau;*)</dt>
+              <dd id="meta-thresholds-summary">
+                <code>request: 0.19</code> &bull; <code>water: 0.22</code> &bull; <code>food: 0.26</code> &bull; <code>shelter: 0.32</code> &bull; <code>medical_help: 0.20</code>
+              </dd>
+            </div>
+            <div class="spec-row">
+              <dt>Uncertainty Band</dt>
+              <dd id="meta-uncertainty-band">&plusmn;0.08 around each label threshold &tau;<sub>l</sub></dd>
+            </div>
+            <div class="spec-row">
+              <dt>Cleaned Dataset Splits</dt>
+              <dd id="meta-dataset-counts">Train: 19,032 &bull; Validation: 2,329 &bull; Cleaned Held-Out Test: 2,387</dd>
+            </div>
+            <div class="spec-row">
+              <dt>SDG Alignment</dt>
+              <dd>SDG 11 (Disaster Resilience) &amp; SDG 13 (Climate Adaptation) &mdash; <em>potential decision-support contribution</em></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 2 & MODULE 3: MESSAGE ANALYZER & MULTI-LABEL RESULTS -->
+    <section id="section-analyzer" class="dashboard-section" aria-labelledby="heading-analyzer">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Module 2 &amp; Module 3 &bull; Live Real-Model Inference &amp; Multi-Label Threshold Inspection</span>
+          <h2 id="heading-analyzer" class="section-title">Interactive Message Triage Analyzer</h2>
+        </div>
+        <div class="scope-tag">Real FastAPI + Scikit-Learn Pipeline Inference</div>
+      </div>
+
+      <div class="analyzer-layout">
+        <!-- Left Column: Input Form & Illustrative Examples -->
+        <div class="card analyzer-input-card">
+          <div class="card-header-flex">
+            <h3 class="card-title">Input Disaster Message</h3>
+            <span class="char-counter" id="message-char-counter">0 / 10,000 chars</span>
+          </div>
+
+          <form id="single-predict-form" novalidate>
+            <label for="message-input" class="sr-only">Enter an English or English-translated disaster message to classify</label>
+            <textarea
+              id="message-input"
+              class="message-textarea"
+              rows="5"
+              maxlength="10000"
+              placeholder="Enter an English (or English-translated) crisis message to evaluate aid request intent, need categories, and uncertainty routing..."
+              required
+            ></textarea>
+
+            <div class="analyzer-actions">
+              <button type="submit" id="btn-analyze" class="btn btn-primary">
+                <span id="btn-analyze-text">Analyze Message with SINYAL</span>
+              </button>
+              <button type="button" id="btn-clear-input" class="btn btn-secondary">Clear</button>
+            </div>
+          </form>
+
+          <div id="analyzer-error-box" class="inline-error hidden" role="alert"></div>
+
+          <!-- Illustrative Example Buttons -->
+          <div class="examples-container">
+            <div class="examples-header">
+              <span class="examples-label">Illustrative Example Inputs &mdash; Not Held-Out Evaluation Samples</span>
+              <span class="examples-sublabel">Click any scenario below to populate and run real model inference:</span>
+            </div>
+            <div class="example-buttons-grid">
+              <button type="button" class="btn-example" data-example-id="direct_multi">
+                <strong>1. Direct Multi-Need Request</strong>
+                <span>Water &amp; food shortage for stranded families</span>
+              </button>
+              <button type="button" class="btn-example" data-example-id="shelter_medical">
+                <strong>2. Shelter &amp; Medical Request</strong>
+                <span>Collapsed roofs, injured residents needing tents &amp; clinic aid</span>
+              </button>
+              <button type="button" class="btn-example" data-example-id="borderline_implicit">
+                <strong>3. Implicit / Borderline Need Mention</strong>
+                <span>Topic mentioned without explicit first-person request verb</span>
+              </button>
+              <button type="button" class="btn-example" data-example-id="non_request_news">
+                <strong>4. General News / Non-Request Update</strong>
+                <span>Third-person report on relief distribution and weather</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Primary Triage Summary Banner -->
+        <div class="card analyzer-summary-card" aria-live="polite">
+          <div class="card-header-flex">
+            <h3 class="card-title">Triage Decision Support Summary</h3>
+            <button type="button" id="btn-send-to-queue" class="btn btn-small btn-teal" disabled>
+              + Add Result to Demo Review Queue
+            </button>
+          </div>
+
+          <!-- Empty State before first analysis -->
+          <div id="result-empty-state" class="result-empty-state">
+            <p class="empty-state-title">Ready for Real-Time Model Screening</p>
+            <p class="empty-state-desc">
+              Submit a message or select one of the illustrative examples on the left to inspect the model-estimated scores, validation-frozen thresholds (&tau;*), and human review routing recommendation.
+            </p>
+          </div>
+
+          <!-- Populated State -->
+          <div id="result-summary-content" class="result-summary-content hidden">
+            <div class="routing-banner" id="result-routing-banner">
+              <div class="routing-banner-top">
+                <span class="routing-status-badge" id="result-review-status-badge">Human verification recommended</span>
+                <span class="routing-uncertainty-badge" id="result-uncertainty-badge">Uncertainty Band Flagged</span>
+              </div>
+              <p class="routing-reason-title">Human Review Routing Rationale:</p>
+              <ul class="routing-reasons-list" id="result-reasons-list"></ul>
+            </div>
+
+            <div class="summary-grid-2col">
+              <div class="summary-box">
+                <span class="summary-box-label">Aid Request Intent (<code>request</code>)</span>
+                <div class="summary-box-value-row">
+                  <span id="result-request-badge" class="pred-badge pred-positive">Predicted Positive</span>
+                  <span class="score-pill">Model-estimated score: <strong id="result-request-score">0.0000</strong> (<small>&tau; = 0.19</small>)</span>
+                </div>
+              </div>
+
+              <div class="summary-box">
+                <span class="summary-box-label">Detected Need Categories</span>
+                <div id="result-need-tags" class="need-tags-container"></div>
+              </div>
+            </div>
+
+            <div class=" inspected-message-box">
+              <span class="summary-box-label">Evaluated Message Text (Sanitized Display):</span>
+              <blockquote id="result-original-message" class="inspected-message-quote"></blockquote>
+            </div>
+
+            <p class="language-disclaimer-note" id="result-language-disclaimer"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 3: 5 MULTI-LABEL CATEGORY CARDS -->
+      <div class="multilabel-block">
+        <div class="multilabel-header">
+          <div>
+            <h3 class="subsection-title">Module 3 &bull; Multi-Label Category Breakdown (Canonical Order)</h3>
+            <p class="subsection-desc">
+              Categories are <strong>non-mutually-exclusive</strong>. A message may mention a humanitarian topic (such as water or food) without being a direct request for aid, or vice versa. All scores below are <strong>Model-estimated scores</strong> from <code>M1_logreg_C2.0_cwNone</code> compared against frozen validation-selected thresholds (&tau;*).
+            </p>
+          </div>
+          <div class="legend-inline">
+            <span class="legend-item"><span class="legend-swatch swatch-threshold"></span> Frozen Threshold (&tau;*)</span>
+            <span class="legend-item"><span class="legend-swatch swatch-band"></span> Uncertainty Band (&tau;* &plusmn; 0.08)</span>
+          </div>
+        </div>
+
+        <div id="multilabel-cards-grid" class="multilabel-cards-grid" aria-live="polite">
+          <!-- Populated dynamically by app.js in exact order: request, water, food, shelter, medical_help -->
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4: HUMAN REVIEW QUEUE -->
+    <section id="section-queue" class="dashboard-section" aria-labelledby="heading-queue">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Module 4 &bull; Batch Screening &amp; Human-in-the-Loop Triage Queue</span>
+          <h2 id="heading-queue" class="section-title">Human Review Queue (Local Session Demonstration)</h2>
+        </div>
+        <div class="scope-tag">In-Memory Browser Queue &bull; Zero Message Deletion</div>
+      </div>
+
+      <div class="queue-notice-bar" role="note">
+        <strong>Demonstration Queue Governance:</strong> This queue operates strictly in local browser memory for demonstration and workflow verification. It is <strong>not</strong> connected to a live relief organization or external database. In accordance with SINYAL safety policy, <strong>unflagged messages are retained in routine monitoring and are never automatically discarded</strong>.
+      </div>
+
+      <!-- Batch Input Panel -->
+      <div class="card batch-input-card">
+        <div class="card-header-flex">
+          <div>
+            <h3 class="card-title">Batch Message Screening (<code>POST /api/batch</code> &mdash; Max 50 Messages)</h3>
+            <p class="card-subtitle">Enter one message per line to classify a batch of incoming messages and populate the human review queue.</p>
+          </div>
+          <div class="batch-sample-actions">
+            <button type="button" id="btn-load-sample-batch" class="btn btn-secondary btn-small">
+              Load Illustrative 6-Message Disaster Batch
+            </button>
+          </div>
+        </div>
+
+        <form id="batch-predict-form" novalidate>
+          <label for="batch-messages-input" class="sr-only">Enter multiple messages, one per line (up to 50 messages)</label>
+          <textarea
+            id="batch-messages-input"
+            class="message-textarea batch-textarea"
+            rows="4"
+            placeholder="Paste or type up to 50 messages (one message per line)..."
+          ></textarea>
+          <div class="batch-form-footer">
+            <span id="batch-line-counter" class="char-counter">0 / 50 messages</span>
+            <div class="analyzer-actions">
+              <button type="submit" id="btn-run-batch" class="btn btn-primary">Run Batch Triage Screening</button>
+              <button type="button" id="btn-clear-queue" class="btn btn-secondary">Clear Queue</button>
+            </div>
+          </div>
+        </form>
+        <div id="batch-error-box" class="inline-error hidden" role="alert"></div>
+      </div>
+
+      <!-- Queue Filter & Summary Bar -->
+      <div class="card queue-table-card">
+        <div class="queue-controls-bar">
+          <div class="queue-stats-pills">
+            <span class="stat-pill">Total Retained: <strong id="q-stat-total">0</strong></span>
+            <span class="stat-pill stat-pill-amber">Flagged for Human Review: <strong id="q-stat-flagged">0</strong></span>
+            <span class="stat-pill stat-pill-teal">Routine Monitoring: <strong id="q-stat-routine">0</strong></span>
+            <span class="stat-pill">Reviewed by Operator: <strong id="q-stat-reviewed">0</strong></span>
+          </div>
+
+          <div class="queue-filter-group" role="group" aria-label="Filter review queue">
+            <button type="button" class="btn-filter active" data-filter="all">All Retained</button>
+            <button type="button" class="btn-filter" data-filter="flagged">Flagged for Review</button>
+            <button type="button" class="btn-filter" data-filter="routine">Routine Monitoring</button>
+            <button type="button" class="btn-filter" data-filter="followup">Needs Follow-up</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="queue-table" aria-label="Human Review Triage Queue">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Message Preview</th>
+                <th scope="col">Request Intent &amp; Score</th>
+                <th scope="col">Detected Need Topics</th>
+                <th scope="col">Routing &amp; Review Reason</th>
+                <th scope="col">Demo Reviewer Status</th>
+                <th scope="col">Volunteer Actions</th>
+              </tr>
+            </thead>
+            <tbody id="queue-table-body">
+              <tr id="queue-empty-row">
+                <td colspan="7" class="queue-empty-cell">
+                  No messages in the local session queue yet. Click <strong>"Load Illustrative 6-Message Disaster Batch"</strong> above or analyze a message in Module 2.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 5: MODEL EVALUATION -->
+    <section id="section-evaluation" class="dashboard-section" aria-labelledby="heading-evaluation">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Module 5 &bull; Frozen Phase 2 Benchmark Evidence (Single-Shot Held-Out Test)</span>
+          <h2 id="heading-evaluation" class="section-title">Offline Model Evaluation &amp; Threshold Analysis</h2>
+        </div>
+        <div class="scope-tag scope-tag-warning">Offline Benchmark on Cleaned Held-Out Test Set (2,387 Rows) &mdash; Not Live Field Performance</div>
+      </div>
+
+      <div class="eval-disclaimer-banner" role="note">
+        <strong>Scientific Evaluation Integrity:</strong> All metrics below are loaded directly via <code>GET /api/evaluation</code> from the locked Phase 2 artifact (<code>reports/phase2/final_test_metrics.json</code>, SHA-256 verified). Thresholds (&tau;*) were selected exclusively on the validation split (2,329 rows) before single-shot evaluation on the cleaned held-out test split (2,387 rows; 10 duplicate IDs removed during Phase 1 preparation).
+      </div>
+
+      <!-- KPI Metric Cards -->
+      <div class="kpi-grid" id="eval-kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Held-Out Test Macro F1 (&tau;*)</span>
+          <strong class="kpi-value" id="kpi-macro-f1">0.7166</strong>
+          <span class="kpi-subtext" id="kpi-macro-f1-sub">vs. 0.6113 at default &tau; = 0.50 (+0.1053)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Held-Out Test Micro F1 (&tau;*)</span>
+          <strong class="kpi-value" id="kpi-micro-f1">0.7261</strong>
+          <span class="kpi-subtext" id="kpi-micro-f1-sub">vs. 0.6489 at default &tau; = 0.50 (+0.0772)</span>
+        </div>
+        <div class="kpi-card kpi-card-highlight">
+          <span class="kpi-label">Request Intent F<sub>2</sub> Score (&tau;* = 0.19)</span>
+          <strong class="kpi-value" id="kpi-request-f2">0.7781</strong>
+          <span class="kpi-subtext" id="kpi-request-f2-sub">vs. 0.6284 at default &tau; = 0.50 (+0.1497)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Request Recall (Direct Binary)</span>
+          <strong class="kpi-value" id="kpi-request-recall">80.54%</strong>
+          <span class="kpi-subtext" id="kpi-request-recall-sub">385 / 478 true requests (Precision: 68.51%)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Human Review Queue Flag Rate</span>
+          <strong class="kpi-value" id="kpi-flag-rate">33.93%</strong>
+          <span class="kpi-subtext" id="kpi-flag-rate-sub">810 / 2,387 test messages routed to review</span>
+        </div>
+        <div class="kpi-card kpi-card-teal">
+          <span class="kpi-label">Request Capture in Review Queue</span>
+          <strong class="kpi-value" id="kpi-queue-capture">88.28%</strong>
+          <span class="kpi-subtext" id="kpi-queue-capture-sub">422 / 478 captured (56 true requests unflagged)</span>
+        </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="charts-grid">
+        <!-- Chart 1: Per-Label Test Metrics -->
+        <div class="card chart-card">
+          <div class="chart-card-header">
+            <span class="chart-badge">Offline Held-Out Benchmark (n = 2,387)</span>
+            <h3 class="card-title">Chart 1: Per-Label Held-Out Test F1, Precision &amp; Recall (&tau;*)</h3>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chart-per-label" aria-label="Bar chart of per-label held-out test F1, Precision, and Recall"></canvas>
+          </div>
+          <p class="chart-caption">
+            <strong>Scientific Interpretation:</strong> Core physical needs achieve strong held-out test F1 (<code>food: 0.8129</code>, <code>water: 0.8104</code>, <code>request: 0.7404</code>, <code>shelter: 0.7277</code>). In contrast, <code>medical_help</code> achieves <strong>F1 = 0.4917</strong> (Precision 0.4906, Recall 0.4929) due to heterogeneous clinical symptoms and public-health reporting vocabulary in disaster text.
+          </p>
+        </div>
+
+        <!-- Chart 2: Frozen Threshold vs Default 0.50 -->
+        <div class="card chart-card">
+          <div class="chart-card-header">
+            <span class="chart-badge">Offline Held-Out Benchmark (n = 2,387)</span>
+            <h3 class="card-title">Chart 2: Validation-Frozen Thresholds (&tau;*) vs. Default (&tau; = 0.50)</h3>
+          </div>
+          <div class="chart-canvas-wrapper">
+            <canvas id="chart-threshold-comparison" aria-label="Bar chart comparing frozen validation thresholds against default 0.50 thresholds"></canvas>
+          </div>
+          <p class="chart-caption">
+            <strong>Why F<sub>2</sub> &amp; Macro F1 Matter:</strong> Under severe class imbalance (positive rates 4.5%&ndash;20%), default &tau; = 0.50 misses over 41% of aid requests and 81% of medical needs. Tuning <code>request</code> for F<sub>2</sub> (&tau;* = 0.19) weights recall twice as heavily as precision, raising held-out Request F<sub>2</sub> from <strong>0.6284 to 0.7781</strong> and Macro F1 from <strong>0.6113 to 0.7166</strong>.
+          </p>
+        </div>
+
+        <!-- Chart 3: Genre Subgroup Disparity -->
+        <div class="card chart-card chart-card-wide">
+          <div class="chart-card-header">
+            <span class="chart-badge">Exploratory Subgroup Audit &bull; Held-Out Test (n = 2,387)</span>
+            <h3 class="card-title">Chart 3: Source Genre Robustness Comparison &mdash; Direct Crisis Reports (n = 1,067) vs. News Media (n = 1,320)</h3>
+          </div>
+          <div class="chart-canvas-wrapper chart-canvas-wide">
+            <canvas id="chart-genre-subgroups" aria-label="Bar chart comparing direct vs news genre subgroup performance on held-out test"></canvas>
+          </div>
+          <p class="chart-caption">
+            <strong>Critical Subgroup Finding:</strong> On <code>direct</code> citizen/SMS reports (where 39.46% of messages are true aid requests), SINYAL achieves <strong>Request F<sub>2</sub> = 0.8492</strong> (Recall = 89.07%, F1 = 0.7937, Macro F1 = 0.7484). On <code>news</code> reports (where only 4.32% are requests and needs are described in third-person narrative), Request F<sub>2</sub> drops to <strong>0.1880</strong> (Recall = 17.54%, Macro F1 = 0.5559). This confirms SINYAL is best suited for direct message streams rather than journalistic articles.
+          </p>
+        </div>
+      </div>
+
+      <!-- Detailed Per-Label Held-Out Test Table -->
+      <div class="card eval-table-card">
+        <div class="card-header-flex">
+          <h3 class="card-title">Verified Held-Out Test Per-Label Metrics Table (Frozen &tau;* vs. Default 0.50)</h3>
+          <span class="chart-badge">Source: <code>reports/phase2/final_test_metrics.json</code></span>
+        </div>
+        <div class="table-responsive">
+          <table class="eval-table" aria-label="Per-label held-out test metrics">
+            <thead>
+              <tr>
+                <th scope="col">Target Label</th>
+                <th scope="col">Positive Support</th>
+                <th scope="col">Frozen &tau;*</th>
+                <th scope="col">Precision (&tau;*)</th>
+                <th scope="col">Recall (&tau;*)</th>
+                <th scope="col">F1 Score (&tau;*)</th>
+                <th scope="col">F<sub>2</sub> Score (&tau;*)</th>
+                <th scope="col">Default F1 (0.50)</th>
+                <th scope="col">AP (PR-AUC)</th>
+                <th scope="col">TP / FP / FN / TN</th>
+              </tr>
+            </thead>
+            <tbody id="eval-per-label-tbody">
+              <!-- Populated from /api/evaluation -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 6: LIMITATIONS & SAFETY GOVERNANCE -->
+    <section id="section-limitations" class="dashboard-section" aria-labelledby="heading-limitations">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">Module 6 &bull; Scientific Honesty, Operational Boundaries &amp; Risk Disclosure</span>
+          <h2 id="heading-limitations" class="section-title">Known Limitations &amp; Humanitarian AI Governance</h2>
+        </div>
+        <div class="scope-tag scope-tag-alert">Mandatory Pre-Deployment Disclosure</div>
+      </div>
+
+      <div class="limitations-grid">
+        <article class="card limitation-card">
+          <span class="limitation-num">01</span>
+          <h3 class="limitation-title">English / Translated-English Scope Only</h3>
+          <p>The model is trained and evaluated strictly on English-language disaster messages and English translations from the Munro corpus. It does not parse regional idioms without translation.</p>
+        </article>
+
+        <article class="card limitation-card">
+          <span class="limitation-num">02</span>
+          <h3 class="limitation-title">Indonesian Language Not Validated</h3>
+          <p>Performance on untranslated Bahasa Indonesia, regional Indonesian languages (e.g., Javanese, Sundanese), or mixed code-switched social media posts has <strong>not</strong> been validated by this benchmark.</p>
+        </article>
+
+        <article class="card limitation-card">
+          <span class="limitation-num">03</span>
+          <h3 class="limitation-title">Historical 2010&ndash;2012 Dataset Domain Shift</h3>
+          <p>The benchmark originates from historical crises (primarly 2010 Haiti earthquake, 2010 Pakistan floods, 2012 Superstorm Sandy). Contemporary messaging platforms and modern crisis terminology may exhibit domain shift.</p>
+        </article>
+
+        <article class="card limitation-card limitation-card-warn">
+          <span class="limitation-num">04</span>
+          <h3 class="limitation-title">Lower <code>medical_help</code> Performance (F1 = 0.4917)</h3>
+          <p>Held-out test F1 for <code>medical_help</code> is <strong>0.4917</strong> (Recall 49.29%, Precision 49.06%). Bag-of-words TF-IDF struggles with diverse symptom descriptions and indirect medical references.</p>
+        </article>
+
+        <article class="card limitation-card limitation-card-warn">
+          <span class="limitation-num">05</span>
+          <h3 class="limitation-title">Direct vs. News Genre Disparity</h3>
+          <p>While <code>direct</code> SMS/citizen messages achieve <strong>Request F<sub>2</sub> = 0.8492</strong> (89.07% recall), third-person <code>news</code> messages achieve only <strong>Request F<sub>2</sub> = 0.1880</strong> (17.54% recall).</p>
+        </article>
+
+        <article class="card limitation-card limitation-card-alert">
+          <span class="limitation-num">06</span>
+          <h3 class="limitation-title">Residual False Negatives (56 Unflagged Requests)</h3>
+          <p>On the held-out test set, the human-review policy captured <strong>422 of 478</strong> true requests (88.28%) by flagging 33.93% of messages, but <strong>56 true requests (11.72%) remained unflagged</strong> due to implicit or brief phrasing.</p>
+        </article>
+
+        <article class="card limitation-card">
+          <span class="limitation-num">07</span>
+          <h3 class="limitation-title">Mandatory Human Verification Policy</h3>
+          <p>Model-estimated scores are uncalibrated probabilities (mean Brier = 0.0495) and never represent clinical urgency or verified truth. Every flagged item requires human review.</p>
+        </article>
+
+        <article class="card limitation-card">
+          <span class="limitation-num">08</span>
+          <h3 class="limitation-title">Not an Autonomous Dispatch System</h3>
+          <p>SINYAL is a research decision-support prototype for information organization. It must never be used to automatically deploy responders, ration aid, or reject unflagged cries for help.</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="main-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <strong>SINYAL &mdash; AI-Powered Humanitarian Request Triage</strong> &bull; IRDSC 2026 (Category D2) &bull; Team: <em>Bismillah Bisa</em>
+      </div>
+      <div>
+        Stack: Python 3.12 &bull; FastAPI &bull; Scikit-Learn (<code>M1_logreg_C2.0_cwNone</code>) &bull; HTML5/CSS3/Vanilla JS &bull; Chart.js
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
