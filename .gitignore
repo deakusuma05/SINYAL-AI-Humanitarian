@@ -51,4 +51,6 @@ models/*.pkl
 # OS and IDE files
 .DS_Store
 Thumbs.db
+_gh_pages/
+
 
